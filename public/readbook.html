@@ -1,12 +1,113 @@
 <!DOCTYPE html>
 <html lang="ch">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>阅读</title>
-</head>
-<body>
-    
-</body>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>阅读</title>
+		<script type="text/javascript" src="javascripts/jquery.min.js"></script>
+		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				text-decoration: none;
+			}
+			
+			.z_box {
+				height: auto;
+				font-family: "楷体";
+				background: #ccc;
+			}
+			
+			.z_title {
+				width: 100%;
+				height: 150px;
+				border-bottom: 1px solid black;
+				text-align: center;
+				line-height: 150px;
+				font-size: 50px;
+				color: black;
+			}
+			
+			.z_list {
+				width: 100%;
+				height: 500px;
+			}
+			
+			.z_list li {
+				width: 100%;
+				height: auto;
+				color: white;
+				font-size: 18px;
+				background: black;
+			}
+			
+			.z_paging {
+				width: 107px;
+				height: 30px;
+				margin: auto;
+				text-align: center;
+			}
+			
+			.z_paging span {
+				width: 50px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+				display: block;
+				float: left;
+			}
+			
+			.z_paging p {
+				float: left;
+				line-height: 30px;
+				color: #ddd;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="z_box">
+				<div class="z_title">阅读</div>
+				<div class="z_content">
+					<ul class="z_list">
+						<li>
+							<div>七年......</div>
+						</li>
+						<li>
+							<div>七年......</div>
+						</li>
+						<li>
+							<div>七年......</div>
+						</li>
+					</ul>
+					<div class="z_paging">
+						<a href="javascript:;" class="z_page"><span><</span></a>
+						<p>|</p>
+						<a href="javascript:;" class="z_page2"><span>></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		const oPage = document.querySelector('.z_page')
+		const oPage2 = document.querySelector('.z_page2')
+		oPage.onclick = function() {
+			alert('seven years');
+		}
+		oPage2.onclick = function() {
+			alert('seven years');
+		}
+	</script>
+
 </html>
