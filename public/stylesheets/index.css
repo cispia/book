@@ -1,6 +1,22 @@
 #type_t{
 	display: none;
 }
+.peotx{
+	display: block;
+	width:60px;
+	height: 60px;
+	border-radius: 50%;
+	background: #aaa;
+	float: left;
+}
+#user_text{
+	width: 60px;
+	height: 60px;
+	margin-left: 10px;
+	display: block;
+	float: left;
+	text-align: center;
+}
 
 #img {
 	width: 80px;
@@ -58,7 +74,6 @@
 .people{
 	line-height: 60px;
 	font-size: 20px;
-	background:red;
 	height: 60px;
 }
 
@@ -105,17 +120,37 @@
 #bookshelf{
 	height: 80px;
 	line-height: 80px;
-	/*background: #ccc;*/
 	margin-bottom:10px;
 	display: none;
 }
-#bookshelf a{
+#bookshelf div{
 	height: 80px;
 	float: left;
 	width: 50%;
 	text-align: center;
-	text-decoration: none;
-	color: #000;
 	border: 1px solid #ccc;
 	font-size: 24px;
+}
+#bookshelf div a{
+	color: #000;
+	text-decoration: none;
+}
+
+#my_img{
+	width: 100px;
+	height: 140px;
+	border:1px solid #ccc;
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	/*position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -70px;
+	margin-left: -50px;*/
+}
+#my_img img{
+	width: 100%;
+	height: 100%;
+	
 }
