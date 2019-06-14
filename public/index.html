@@ -1,12 +1,180 @@
 <!DOCTYPE html>
 <html lang="ch">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    hello git
-</body>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>首页</title>
+
+		<link rel="stylesheet" type="text/css" href="stylesheets/index.css" />
+
+		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<script src="javascripts/jquery.min.js"></script>
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row" style="background: #CCCCCC;height: 60px;">
+				<!--个人信息-->
+				<div class="col-md-2" style="line-height: 60px;font-size: 20px;background: red;height: 60px;">
+					<!--你好:<span id="user_text" style="color: red;"></span>-->
+				</div>
+				<!--登录注册-->
+				<div class="col-md-2 col-md-offset-8" style="line-height: 60px;font-size: 20px;" id="type_l">
+					<span data-toggle="modal" data-target="#login_in">登录</span> /
+					<span data-toggle="modal" data-target="#login_up">注册</span>
+				</div>
+				<!--退出登录，个人中心-->
+				<div class="col-md-4 col-md-offset-6" id="type_t">
+					<span class="btn btn-info" id="t_btn">退出登录</span>
+					<span data-toggle="modal" class="btn btn-info" data-target="#personal_btn">个人中心</span>
+				</div>
+			</div>
+			<!--搜索-->
+			<div class="row" id="search">
+				<div class="input-group row">
+					<input type="text" class="form-control" id="text" placeholder="搜索小说">
+					<div class="input-group-addon" id="btn">搜索</div>
+				</div>
+			</div>
+			<!--热推小说-->
+			<div class="row" id="con">
+				<ul id="ul">
+					<li>
+						<a href="https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=907f6e689ddda144c5096ab282b6d009/dc54564e9258d1092f7663c9db58ccbf6c814d30.jpg">
+							<img src="https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=ad628627aacc7cd9e52d32d909032104/32fa828ba61ea8d3fcd2e9ce9e0a304e241f5803.jpg" alt="" />
+							<div id="book_title">书名</div>
+							<div id="book_author">作者</div>
+						</a>
+					</li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+			
+			<!--搜索列表-->
+			<div class="row" id="search_list">
+				<ul id="list">
+					<li>
+						<a href='https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a62e824376d98d1069d40a31113eb807/838ba61ea8d3fd1fc9c7b6853a4e251f94ca5f46.jpg'><img src="https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=ad628627aacc7cd9e52d32d909032104/32fa828ba61ea8d3fcd2e9ce9e0a304e241f5803.jpg" alt="" /></a>
+						<h1 id="cover-book-title">封面书名</h1>
+						<p>齐悦刚穿越到七零年代，只因为被男人自河中救了就被安上了伤风败俗的标签。等等，她还刚被退了婚，成了只能嫁个鳏夫二流子之类的二手货？齐悦气笑了，女人当自强，挣钱发家，上学办厂，她混得风生水起，但这个救命恩人是怎么回事，为何他的目光越来越火热？
+她是从了呢，还是从了呢？从了之后她才知道，之前的冷静自持都是骗人的，他整个就是匹饿狼！</p>
+					</li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+			<!--书架我的-->
+			<div class="row" id="bookshelf">
+				<a href="booklist.html">书架</a>
+				<a href="createbook.html">我的</a>
+			</div>
+		</div>
+		<!--注册-->
+		<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="login_up">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">注册</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="name">头像</label>
+							<div id="img"></div>
+						</div>
+						<div class="form-group">
+							<label for="name">昵称</label>
+							<input type="text" class="form-control" id="name_in" placeholder="昵称">
+						</div>
+						<div class="form-group">
+							<label for="user">账号</label>
+							<input type="text" class="form-control" id="user_up" placeholder="账号">
+						</div>
+						<div class="form-group">
+							<label for="pass">密码</label>
+							<input type="password" class="form-control" id="pass_up" placeholder="密码">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="btn_up">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--结束-->
+		<!--登录-->
+		<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="login_in">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">登录</h4>
+					</div>
+					<div class="modal-body">
+
+						<div class="form-group">
+							<label for="user">账号</label>
+							<input type="text" class="form-control" id="user_in" placeholder="账号">
+						</div>
+						<div class="form-group">
+							<label for="pass">密码</label>
+							<input type="password" class="form-control" id="pass_in" placeholder="密码">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="btn_in">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--结束-->
+
+		<!--个人中心-->
+		<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="personal_btn">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">个人信息</h4>
+					</div>
+					<div class="modal-body" style="height: 200px;">
+						<div class="col-md-2" id="personal_con">
+							
+						</div>
+					</div>
+					<!--取消确定-->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		login_in.onclick=function(){
+			type_l.style.display='none';
+			type_t.style.display='block';
+			bookshelf.style.display='block';
+		}
+		
+		//搜索
+		btn.onclick = function() {
+			con.style.display='none';
+			search_list.style.display='block';
+		}
+		
+	</script>
+
 </html>
