@@ -3,9 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var tx=require("./routes/tx");
+var logup=require("./routes/login");
 // 我是一行注释
 var app = express();
 
@@ -21,6 +22,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use("/tx",tx);
+app.use("/logup",logup);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,5 +41,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+app.use(express.static("./public"));
+app.listen(8000,()=>{
+  console.log("启动");
+})
 
 module.exports = app;
