@@ -8,16 +8,23 @@
 		<title>阅读</title>
 		<script type="text/javascript" src="javascripts/jquery.min.js"></script>
 		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+			integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+			crossorigin="anonymous">
 
 		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+			integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+			crossorigin="anonymous"></script>
 		<style>
 			* {
 				margin: 0;
 				padding: 0;
 				list-style: none;
 				text-decoration: none;
+				border-style: none;
 			}
 			
 			.z_box {
@@ -28,48 +35,33 @@
 			
 			.z_title {
 				width: 100%;
-				height: 150px;
+				height: 70px;
 				border-bottom: 1px solid black;
 				text-align: center;
-				line-height: 150px;
-				font-size: 50px;
+				line-height: 70px;
+				font-size: 40px;
 				color: black;
 			}
 			
 			.z_list {
 				width: 100%;
-				height: 500px;
-			}
-			
-			.z_list li {
-				width: 100%;
+				padding: 20px;
 				height: auto;
-				color: white;
-				font-size: 18px;
-				background: black;
 			}
-			
-			.z_paging {
-				width: 107px;
-				height: 30px;
-				margin: auto;
-				text-align: center;
+			*{
+				font-size: 20px;
 			}
-			
-			.z_paging span {
+			.z_back {
 				width: 50px;
 				height: 30px;
-				text-align: center;
-				line-height: 30px;
-				display: block;
 				float: left;
-			}
-			
-			.z_paging p {
-				float: left;
-				line-height: 30px;
-				color: #ddd;
+				outline: none;
+				padding: 0!important;
+				margin: 20px;
+				font-size: 16px;
+				line-height: 25px;
 				text-align: center;
+				border-radius: 15px;
 			}
 		</style>
 	</head>
@@ -77,37 +69,28 @@
 	<body>
 		<div class="container">
 			<div class="z_box">
-				<div class="z_title">阅读</div>
+				<button class="z_back">Back</button>
+				<div class="z_title"></div>
 				<div class="z_content">
-					<ul class="z_list">
-						<li>
-							<div>七年......</div>
-						</li>
-						<li>
-							<div>七年......</div>
-						</li>
-						<li>
-							<div>七年......</div>
-						</li>
-					</ul>
-					<div class="z_paging">
-						<a href="javascript:;" class="z_page"><span><</span></a>
-						<p>|</p>
-						<a href="javascript:;" class="z_page2"><span>></span></a>
+					<div class="z_list">
 					</div>
 				</div>
 			</div>
 		</div>
 	</body>
 	<script>
-		const oPage = document.querySelector('.z_page')
-		const oPage2 = document.querySelector('.z_page2')
-		oPage.onclick = function() {
-			alert('seven years');
+		var json=JSON.parse(localStorage.text);
+		$(".z_list").html(json.text);
+		$(".z_title").html(decodeURI(location.href.split("?")[1]).split("=")[1]);
+		(json);
+		window.onload=function(){
+			var arr=$("span");
+			$.each(arr,function(i,o){
+				o.style.fontSize="20px";
+			})
 		}
-		oPage2.onclick = function() {
-			alert('seven years');
+		$(".z_back")[0].onclick = function() {
+			location.href ="details.html";
 		}
 	</script>
-
 </html>

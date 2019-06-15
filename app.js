@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var tx=require("./routes/tx");
+var cover=require("./routes/cover");
+var bookimg=require("./routes/bookimg");
 var logup=require("./routes/login");
 // 我是一行注释
 var app = express();
@@ -19,11 +20,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use("/tx",tx);
-app.use("/logup",logup);
+app.use("/cover",cover);//注册头像
+app.use("/bimg",bookimg);//书面
+app.use("/logup",logup);//book操作
 
 
 // catch 404 and forward to error handler

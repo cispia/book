@@ -1,12 +1,193 @@
 <!DOCTYPE html>
 <html lang="ch">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>详情</title>
-</head>
-<body>
-    
-</body>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>详情</title>
+		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+			integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+			crossorigin="anonymous">
+
+		<script src='javascripts/jquery.min.js'></script>
+
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+			integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+			crossorigin="anonymous"></script>
+		<style>
+		* {
+			margin: 0;
+			padding: 0;
+			border-style: none;
+			list-style: none;
+		}
+
+		.clearfix {
+			zoom: 1;
+		}
+
+		.clearfix::after,
+		.clearfix::before {
+			content: '';
+			display: block;
+			width: 0;
+			height: 0;
+			visibility: hidden;
+			clear: both;
+		}
+
+		.Y_chap-list li {
+			height: 30px;
+			line-height: 30px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin: 10px;
+			text-align: center;
+			font-weight: bold;
+			font-size: 18px;
+		}
+
+		.Y_list-left img {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			border: 1px solid #ccc;
+			margin: 10px;
+		}
+		.z_back {
+				width: 50px;
+				height: 30px;
+				float: left;
+				outline: none;
+				padding: 0!important;
+				margin: 3px;
+				font-size: 16px;
+				line-height: 25px;
+				text-align: center;
+			}
+	</style>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<!-- 封面 -->
+			<div class='Y_big-wap clearfix' style="border:1px solid #ccc;margin-bottom:
+				10px;">
+				<div class='Y_listbook-cove' style='float: left;width:100px;height:
+					120px;margin:10px 20px 10px 0'>
+					<img class="fm" src="" style='width:100px;height: 120px;'>
+				</div>
+				<div class='Y_listbook-info' style='float:left;'>
+					<h3></h3>
+					<p class='txt'
+						style="height:80px;width:1000px;color:#ccc;font-size:14px;"></p>
+				</div>
+			</div>
+			<!-- 章节 -->
+			<div class='Y_chap' style="border:1px solid #ccc;background:#fec;height:
+				auto;">
+				<ul class='Y_chap-list'>
+				</ul>
+			</div>
+			<!-- 评论 -->
+			<div class='Y_cover-comments' style="margin-top:15px;">
+				<!-- 评论 -->
+				<div class='Y_text' style="position:relative;height: auto;">
+					<textarea class="textarea" style="width:100%;height:100px;border:1px solid
+						#ccc;resize: none;"></textarea>
+					<button class="z_back">Back</button><button id='Y_btn'
+						style="width:70px;height: 30px;position:
+						absolute;right:0;margin-top:5px;">评论</button>
+				</div>
+				<ul class="list">
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script>
+		$(".z_back")[0].onclick = function() {
+			location.href = "booklist.html";
+		}
+	var href = 'http://localhost:8000';
+	var json=JSON.parse(localStorage.bookdet);
+	$(".fm").attr("src",json.bookimg);
+	$(".Y_listbook-info").children("h3").text(json.name);
+	$(".txt").text(json.briefing);
+	list(json);
+	$.ajax({
+		url:href+"/logup/chap",
+		type:'post',
+		data:json,
+		success(data){
+			$.each(data,function(i,o){
+				var li=$(`<li>${o.name}</li>`);
+				$(li).on("click",function(){
+					$.ajax({
+						url:href+"/logup/read",
+						type:"get",
+						data:o,
+						success(data){
+							localStorage.text=JSON.stringify(data[0]);
+							location.href="readbook.html?chap="+o.name;
+						}
+					})
+				})
+				$(".Y_chap-list").append(li);
+			})
+		}
+	})
+	//评论
+	$('#Y_btn').on('click',()=>{
+		$(".list").empty();
+		var pljson={
+		bookid:json.uid,
+		user:JSON.parse(localStorage.user).name,
+		img:JSON.parse(localStorage.user).img,
+		pltext:$(".textarea").val()
+		};
+		$.ajax({
+			url:href+'/logup/insert',
+			type:'post',
+			data:pljson,
+			success(data){
+				list(json);$(".textarea").val("")
+			}
+		})
+	})
+	function list(json){
+		$.ajax({
+		url:href+'/logup/pllist',
+		type:'post',
+		data:json,
+		success(data){
+			$.each(data,function(i,o){
+				var li=$(`
+				<li>
+			<div class='Y_list clearfix' style="border:1px solid
+				#ccc;margin-top:40px;">
+				<div class='Y_list-left'
+					style="width:100px;height:120px;float: left;">
+					<img
+						src="${o.img}"
+						alt="">
+				</div>
+				<div class='Y_list-right' style='float: left;margin-left:30px;'>
+					<h3>${o.user}</h3>
+					<p>${o.text_pl}</p>
+				</div>
+			</div>
+		</li>
+				`);
+				$(".list").append(li);
+			})
+		}
+	})
+	}
+</script>
 </html>

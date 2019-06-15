@@ -58,12 +58,15 @@
 	list-style: none;
 }
 #con a{
+	width: 100%;
+	height: 240px;
 	text-decoration: none;
+	
 }
 
 #con li img{
 	width: 100%;
-	height: 240px;
+	height: auto;
 }
 #book_title{
 	margin-top: 5px;
@@ -100,10 +103,12 @@
 	float: left;
 }
 #cover-book-title{
-	font-size: 22px;
-	margin-top: 10px;
-	margin-left: 10px;
-	display: inline-block;
+	margin-top:20px; 
+	font-size: 26px;
+	display:inline-block;
+}
+#cover-book-title1{
+	font-size: 20px;
 }
 #list li p{
 	color: #ccc;

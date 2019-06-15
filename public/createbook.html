@@ -42,7 +42,25 @@
         }
         .c_title{
             width: 100%;
+            height: 90px;
             background-color:#ccc;
+            padding-bottom: 5px;
+        }
+        .c_bookimg{
+            width: auto;
+            height: 100%;
+            margin-right: 20px;
+            margin-top: 5px;
+            float: right;
+            border: 1px solid;
+        }
+        .c_bookimg img{
+            width: auto;
+            height: 100%;
+        }
+        .c_maintitle{
+            width: 80%;
+            float: left;
         }
         .c_bookname , .c_itemname{
             height: 40px;
@@ -53,6 +71,10 @@
         .c_itemname{
             margin-top: 5px;
             padding: 0 80px;
+        }
+        #c_name{
+            width: 500px;
+            height: 40px;
         }
         .c_foot{
             width: 100%;
@@ -73,11 +95,20 @@
     <body>
         <div class="container">
             <!-- 标题 -->
-            <div class="c_head">创建文档</div>
+            <div class="c_head">章节内容</div>
             <!-- 小说名字 -->
             <div class="c_title">
-                <div class="c_bookname">小说名字：</div>
-                <div class="c_itemname">第几章：名字</div>
+                <div class="c_maintitle">
+                    <div class="c_bookname">小说名字：</div>
+                    <div class="c_itemname">
+                        章节：
+                        <input id="c_name" type="text" placeholder="名字">
+                    </div>
+                </div>
+                <!-- 封面 -->
+                <div class="c_bookimg">
+                    <img src="" class="c_img" alt="">
+                </div>
             </div>
             <!-- 富文本编辑器 -->
             <textarea id="editor" placeholder="请输入小说内容" autofocus></textarea>
@@ -93,10 +124,52 @@
         </div>
 
         <script>
+            var href = 'http://localhost:8000';
+            //获取小说信息
+            var json=JSON.parse(localStorage.bookmsg);
+            console.log(json);
+            $(".c_bookname").text(json.name);
+            $(".c_img").attr("src",json.bookimg);
+             // 点击发布按钮
+             $('.c_on').on('click',function(){
+                 $.ajax({
+                     url:href+"/logup/chapup",
+                     type:'post',
+                     data:{
+                         bookid:json.uid,
+                         name:$("#c_name").val()
+                     },
+                     success(data){
+                         console.log(data);
+                         $.ajax({
+                             url:href+"/logup/content",
+                             type:"post",
+                             data:{
+                                 chap:data.uid,
+                                 text:$("#editor").val()
+                             },
+                             success(data){
+                                 alert(data);
+                                 location.href='booklist.html';
+                             }
+                         })
+                     }
+                 })
+            })
+            // 富文本编辑器
         	var editor = new Simditor({
               	textarea: $('#editor')
               	//optional options
             });
+
+            // 点击取消按钮
+            $('.c_off').on('click',function(){
+                $("#editor").val("");
+                $("#c_name").val("");
+                location.href="index.html";
+            })
+
+           
         </script>
     </body>
 </html>
