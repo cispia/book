@@ -3,8 +3,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var cover=require("./routes/cover");
 var bookimg=require("./routes/bookimg");
 var logup=require("./routes/login");
@@ -20,8 +18,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use("/cover",cover);//注册头像
 app.use("/bimg",bookimg);//书面
 app.use("/logup",logup);//book操作

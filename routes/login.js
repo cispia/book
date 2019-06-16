@@ -1,10 +1,25 @@
 var express = require('express');
 var router = express.Router();
 var pool = require("./pool");
+// 修改个人信息
+router.post('/updat', function (req, res) {
+    var json = req.body;
+    console.log(json);
+    pool.conn({
+        sql: "update login set name=?,img=? where uid=?",
+        arr: [json.nicheng,json.img,json.uid],
+        success(data) {
+            res.send("修改成功");
+        },
+        error(err) {
+            res.send(err);
+        }
+    })
+});
 // 热搜
 router.post('/resou', function (req, res) {
     pool.conn({
-        sql: 'select * from creatbook limit 0,6',
+        sql: 'select * from createbook limit 0,6',
         success(data) {
             if (data.length) {
                 var result = data;
@@ -115,7 +130,7 @@ router.post('/chap', function (req, res) {
 router.post('/seatch', function (req, res) {
     var json = req.body.hotkey;
     pool.conn({
-        sql: 'select * from creatbook where name like "%' + json + '%"',
+        sql: 'select * from createbook where name like "%' + json + '%"',
         success(data) {
             if (data.length) {
                 var result = data;
@@ -132,10 +147,9 @@ router.post('/seatch', function (req, res) {
 // 创建小说列表
 router.post('/list', function (req, res) {
     var json = req.body;
-    console.log(json);
     // res.send("ok");
     pool.conn({
-        sql: "select * from creatbook where loginid=?",
+        sql: "select * from createbook where loginid=?",
         arr: [json.userid],
         success(data) {
             if (data.length) {
@@ -192,13 +206,12 @@ router.post('/chapup', function (req, res) {
 // 创建书名
 router.post('/bookup', function (req, res) {
     var json = req.body;
-    // console.log(json);
     pool.conn({
-        sql: "insert into creatbook(name,author,briefing,bookimg,loginid) values(?,?,?,?,?)",
+        sql: "insert into createbook(name,author,briefing,bookimg,loginid) values(?,?,?,?,?)",
         arr: [json.bookname, json.author, json.briefing, json.bookimgurl, json.useruid],
         success(data) {
             pool.conn({
-                sql: "select * from creatbook where name=? and author=? and loginid=?",
+                sql: "select * from createbook where name=? and author=? and loginid=?",
                 arr: [json.bookname, json.author, json.useruid],
                 success(data) {
                     // var result=JSON.stringify(data);
