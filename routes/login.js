@@ -1,13 +1,51 @@
 var express = require('express');
 var router = express.Router();
 var pool = require("./pool");
+// 删除书
+router.get('/del', function (req, res) {
+    var json = req.query;
+    pool.conn({
+        sql: "select * from createbook where uid=?",
+        arr: [json.uid],
+        success(data) {
+            pool.conn({
+                sql: "delete from createbook where uid=" + json.uid,
+                success(data) {
+                    pool.conn({
+                        sql: "delete from chap where uid=" + json.uid,
+                        success(data) {
+                            pool.conn({
+                                sql: "delete from content where uid=" + json.uid,
+                                success(data) {
+                                    res.send("删除成功");
+                                },
+                                error(err) {
+                                    res.send(err);
+                                }
+                            })
+                        },
+                        error(err) {
+                            res.send(err);
+                        }
+                    });
+                },
+                error(err) {
+                    return;
+                }
+            });
+        },
+        error(err) {
+            res.send(err);
+        }
+    })
+});
 // 修改个人信息
 router.post('/updat', function (req, res) {
     var json = req.body;
-    console.log(json);
+    // if(json==null) return;
     pool.conn({
         sql: "update login set name=?,img=? where uid=?",
-        arr: [json.nicheng,json.img,json.uid],
+        arr: [json.nicheng, json.img, json.uid],
         success(data) {
             res.send("修改成功");
         },
@@ -36,7 +74,7 @@ router.post('/resou', function (req, res) {
 // 评论内容
 router.post('/pllist', function (req, res) {
     var json = req.body;
-    console.log(json);
+    // if(json==null) return;
     pool.conn({
         sql: 'select * from pl where bookid=?',
         arr: [json.uid],
@@ -56,27 +94,28 @@ router.post('/pllist', function (req, res) {
 //评论
 router.post('/insert', function (req, res) {
     var json = req.body;
+    // if(json==null) return;
     pool.conn({
         sql: 'insert into pl(user,img,text_pl,bookid) values(?,?,?,?)',
         arr: [json.user, json.img, json.pltext, json.bookid],
         success(data) {
             if (data.length) {
-                    pool.conn({
-                        sql: 'select * from pl where bookid=?',
-                        arr: [json.bookid],
-                        success(data) {
-                            if (data.length) {
-                                console.log(data);
-                            var result=data;
+                pool.conn({
+                    sql: 'select * from pl where bookid=?',
+                    arr: [json.bookid],
+                    success(data) {
+                        if (data.length) {
+                            console.log(data);
+                            var result = data;
                             res.send(result);
-                            } else {
-                                res.send(data);
-                            }
-                        },
-                        error(err) {
-                            res.send(err+"123");
+                        } else {
+                            res.send(data);
                         }
-                    })
+                    },
+                    error(err) {
+                        res.send(err);
+                    }
+                })
             } else {
                 res.send(data);
             }
@@ -89,8 +128,6 @@ router.post('/insert', function (req, res) {
 // 内容
 router.get('/read', function (req, res) {
     var json = req.query;
-    // console.log(json);
-    // res.send("ok");
     pool.conn({
         sql: 'select * from content where chapid=?',
         arr: [json.uid],
@@ -147,7 +184,6 @@ router.post('/seatch', function (req, res) {
 // 创建小说列表
 router.post('/list', function (req, res) {
     var json = req.body;
-    // res.send("ok");
     pool.conn({
         sql: "select * from createbook where loginid=?",
         arr: [json.userid],
@@ -167,7 +203,6 @@ router.post('/list', function (req, res) {
 //创建章节
 router.post('/chapup', function (req, res) {
     var json = req.body;
-    // console.log(json);
     pool.conn({
         sql: "insert into chap(name,bookid) values(?,?)",
         arr: [json.name, json.bookid],
@@ -180,7 +215,6 @@ router.post('/chapup', function (req, res) {
                     // 创建内容
                     router.post('/content', function (req, res) {
                         var json = req.body;
-                        console.log(json);
                         pool.conn({
                             sql: "insert into content(chapid,text) values(?,?)",
                             arr: [json.chap, json.text],
@@ -214,7 +248,6 @@ router.post('/bookup', function (req, res) {
                 sql: "select * from createbook where name=? and author=? and loginid=?",
                 arr: [json.bookname, json.author, json.useruid],
                 success(data) {
-                    // var result=JSON.stringify(data);
                     res.send(data[0]);
                 },
                 error(err) {
@@ -257,7 +290,6 @@ router.post('/up', function (req, res) {
 // 登录
 router.post('/in', function (req, res) {
     var json = req.body;
-    console.log(json);
     pool.conn({
         sql: "select * from login where user=? and pass=?",
         arr: [json.user, json.pass],
@@ -268,7 +300,7 @@ router.post('/in', function (req, res) {
                 result.pwd = "";
                 res.send(result);
             } else {
-                res.send(data);
+                return;
             }
         },
         error(err) {

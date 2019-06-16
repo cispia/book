@@ -20,8 +20,8 @@ module.exports = {
 				json.error(err)
 				return
 			  }
-				connection.release()
-				json.success(data)
+			json.success(data)
+			connection.release()
 			})
 		})
 	}

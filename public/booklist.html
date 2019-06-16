@@ -151,10 +151,25 @@
 							<button class="z_btn">删除</button>
 						</li>`);
 						$(".z_list").append($(li));
+						$(".z_btn").on("click",function(){
+							if(!data[$(this).parent().index()].uid)return;
+					$.ajax({
+						url:href+"/logup/del",
+						type:"get",
+						data:{
+							uid:data[$(this).parent().index()].uid
+						},
+						success(data){
+							console.log(data);
+							$(".z_list li").eq($(this).parent().index()).remove();
+						}
+					})
+				})
 						$(li).on("click",function(){
 						localStorage.bookdet=JSON.stringify(o);
 						})
 				})
+				
 			}
 		})
 		oBack.onclick = function() {

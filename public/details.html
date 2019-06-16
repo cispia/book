@@ -101,8 +101,8 @@
 				<div class='Y_text' style="position:relative;height: auto;">
 					<textarea class="textarea" style="width:100%;height:100px;border:1px solid
 						#ccc;resize: none;"></textarea>
-					<button class="z_back">Back</button><button id='Y_btn'
-						style="width:70px;height: 30px;position:
+					<button class="z_back">Back</button>
+					<button id='Y_btn' style="width:70px;height: 30px;position:
 						absolute;right:0;margin-top:5px;">评论</button>
 				</div>
 				<ul class="list">
@@ -156,7 +156,8 @@
 			type:'post',
 			data:pljson,
 			success(data){
-				list(json);$(".textarea").val("")
+				$(".textarea").val("")
+				list(json);
 			}
 		})
 	})
@@ -166,6 +167,7 @@
 		type:'post',
 		data:json,
 		success(data){
+			
 			$.each(data,function(i,o){
 				var li=$(`
 				<li>
