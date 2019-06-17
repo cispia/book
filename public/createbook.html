@@ -127,11 +127,14 @@
             var href = 'http://localhost:8000';
             //获取小说信息
             var json=JSON.parse(localStorage.bookmsg);
-            console.log(json);
             $(".c_bookname").text(json.name);
             $(".c_img").attr("src",json.bookimg);
              // 点击发布按钮
              $('.c_on').on('click',function(){
+                if($("#c_name").val()=="" && $("#editor").val()==""){
+                    alert("请输入内容");
+                    return;
+                }
                  $.ajax({
                      url:href+"/logup/chapup",
                      type:'post',

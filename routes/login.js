@@ -57,7 +57,7 @@ router.post('/updat', function (req, res) {
 // 热搜
 router.post('/resou', function (req, res) {
     pool.conn({
-        sql: 'select * from createbook limit 0,6',
+        sql: 'select * from createbook',
         success(data) {
             if (data.length) {
                 var result = data;
@@ -76,7 +76,7 @@ router.post('/pllist', function (req, res) {
     var json = req.body;
     // if(json==null) return;
     pool.conn({
-        sql: 'select * from pl where bookid=?',
+        sql: 'select * from pl where bookid=? order by uid desc',
         arr: [json.uid],
         success(data) {
             if (data.length) {
@@ -101,7 +101,8 @@ router.post('/insert', function (req, res) {
         success(data) {
             if (data.length) {
                 pool.conn({
-                    sql: 'select * from pl where bookid=?',
+                    // select * from text_cc where songuid=? order by uid desc
+                    sql: 'select * from pl where bookid=? order by uid desc',
                     arr: [json.bookid],
                     success(data) {
                         if (data.length) {
@@ -118,6 +119,26 @@ router.post('/insert', function (req, res) {
                 })
             } else {
                 res.send(data);
+            }
+        },
+        error(err) {
+            res.send(err);
+        }
+    })
+});
+// 已创建的小说
+router.get('/loguid', function (req, res) {
+    var json = req.query;
+    
+    pool.conn({
+        sql: 'select * from createbook where loginid=?',
+        arr: [json.logid],
+        success(data) {
+            if (data.length) {
+                var result = data;
+                res.send(result);
+            } else {
+                res.send("没有数据了");
             }
         },
         error(err) {
@@ -237,11 +258,25 @@ router.post('/chapup', function (req, res) {
         }
     })
 });
+//更新小说的rs次数
+router.get("/uprsid",(req,res)=>{
+    var json=req.query;
+    pool.conn({
+        sql: "update createbook set rsid=? where uid=?",
+        arr: [json.rsid, json.uid],
+        success(data) {
+            res.send("点击率以增加");
+        },
+        error(err) {
+            res.send(err);
+        }
+    })
+})
 // 创建书名
 router.post('/bookup', function (req, res) {
     var json = req.body;
     pool.conn({
-        sql: "insert into createbook(name,author,briefing,bookimg,loginid) values(?,?,?,?,?)",
+        sql: "insert into createbook(name,author,briefing,bookimg,loginid,rsid) values(?,?,?,?,?,1)",
         arr: [json.bookname, json.author, json.briefing, json.bookimgurl, json.useruid],
         success(data) {
             pool.conn({

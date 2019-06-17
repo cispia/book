@@ -112,10 +112,12 @@
 	</body>
 	<script>
 		$(".z_back")[0].onclick = function() {
-			location.href = "booklist.html";
+			localStorage.removeItem(localStorage.bookdet);
+			location.href="index.html";
 		}
 	var href = 'http://localhost:8000';
 	var json=JSON.parse(localStorage.bookdet);
+	
 	$(".fm").attr("src",json.bookimg);
 	$(".Y_listbook-info").children("h3").text(json.name);
 	$(".txt").text(json.briefing);
@@ -125,6 +127,18 @@
 		type:'post',
 		data:json,
 		success(data){
+			json.rsid++;
+			$.ajax({
+				url:href+"/logup/uprsid",
+				type:"get",
+				data:{
+				rsid:json.rsid,
+				uid:json.uid	
+				},
+				success(data){
+					console.log(data);
+				}
+			})
 			$.each(data,function(i,o){
 				var li=$(`<li>${o.name}</li>`);
 				$(li).on("click",function(){
@@ -133,6 +147,7 @@
 						type:"get",
 						data:o,
 						success(data){
+							// console.log(data);
 							localStorage.text=JSON.stringify(data[0]);
 							location.href="readbook.html?chap="+o.name;
 						}
@@ -144,6 +159,10 @@
 	})
 	//评论
 	$('#Y_btn').on('click',()=>{
+		if($(".textarea").val()==""){
+			alert("评论内容不能为空");
+			return;
+		}
 		$(".list").empty();
 		var pljson={
 		bookid:json.uid,
@@ -167,7 +186,6 @@
 		type:'post',
 		data:json,
 		success(data){
-			
 			$.each(data,function(i,o){
 				var li=$(`
 				<li>

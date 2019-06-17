@@ -73,7 +73,7 @@
 				<div class="shujia">
 					书架
 				</div>
-				<div data-toggle="modal" data-target="#my">我要发布</div>
+				<div data-toggle="modal" class="fabu" data-target="#my">我要发布</div>
 			</div>
 		</div>
 		<!--注册-->
@@ -108,8 +108,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" id="btn_up"
-							data-dismiss="modal">确定</button>
+						<button type="button" class="btn" id="btn_up">确定</button>
 					</div>
 				</div>
 			</div>
@@ -138,8 +137,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" id="btn_in"
-							data-dismiss="modal">确定</button>
+						<button type="button" class="btn" id="btn_in">确定</button>
 					</div>
 				</div>
 			</div>
@@ -178,13 +176,27 @@
 		<div class="modal fade" id="my" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
-				<div class="modal-content">
+				<div class="modal-content createcontent">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+						<h4 class="modal-title" id="myModalLabel">创建</h4>
 					</div>
-					<div class="modal-body">
+					<div class="createstatus">
+						<button class="createlist">
+							已创建的追加
+						</button>
+						<button class="newcreate">
+							新创建
+						</button>
+					</div>
+					<div class="modal-body list">
+						<div class="box" style="height:auto;margin: 0 auto;">
+							<ul class="mylist" style="list-style: none;padding: 0;">
+							</ul>
+						</div>
+					</div>
+					<div class="modal-body create">
 						<div class="form-group">
 							<label for="my_img">封面
 								<input style="display: none;" type="file" class="bookimg" id="my_img">
@@ -203,7 +215,6 @@
 							<label for="text">简介</label>
 							<input type="text" class="form-control" id="briefing" placeholder="简介">
 						</div>
-
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default reset" data-dismiss="modal">取消</button>
@@ -222,9 +233,29 @@
 			  url:href+"/logup/resou",
 			  type:"post",
 			  success(data){
-				  console.log(data);
+				  var arr=[];
+				  var newarr=[];
 				  $.each(data,function(i,o){
-					  var li=$(`
+					  arr.push(o.rsid);
+					})
+					arr.sort(function(a,b){
+						return b-a;
+					})
+					for(var i=0;i<data.length;i++){
+						for(var j=0;j<data.length;j++){
+							if(data[j].rsid==arr[i]){
+								if(newarr.indexOf(data[j])==-1){
+									newarr.push(data[j]);
+									break;
+								}else{
+									continue;
+								}
+							}
+						}
+					}
+					var newarr1=newarr.splice(0,6);
+					$.each(newarr1,function(i,o){
+ 						var li=$(`
 					  <li>
 						<a href="details.html">
 							<img src="${o.bookimg}" id='imgs' alt="">
@@ -233,10 +264,10 @@
 						</a>
 					</li>`);
 					$("#ul").append(li);
-					$(li).on("click",function(){
+					$(li).on("click",function(i){
 						localStorage.bookdet=JSON.stringify(o);
 						})
-				  })
+					})
 			  }
 		  })
 		  //返回
@@ -269,6 +300,10 @@
 			$("#nicheng").val(JSON.parse(localStorage.user).name);
 			$("#myimg").attr("src",JSON.parse(localStorage.user).img);
 			$(".update").on("click",function(){
+				if($("#nicheng").val()==JSON.parse(localStorage.user).name || $("#nicheng").val()==""){
+					alert("新昵称为空或跟旧昵称相同");
+					return;
+				}
 			$.ajax({
 				url:href+"/logup/updat",
 				type:"post",
@@ -343,6 +378,10 @@
   
   		//创建小说名
   		$("#my_btn").on("click", () => {
+		if($("#title").val()=="" || $("#author").val()=="" || $("#briefing").val()==""){
+			alert("请完整小说信息");
+			return;
+		}
   		 $.ajax({
   		  url: href + "/logup/bookup",
   		  type: "post",
@@ -357,6 +396,7 @@
 			localStorage.bookmsg = JSON.stringify(data);
 			$("#title").val('');
 		 	$("#author").val('');
+			$("#briefing").val('');
 			bookimgurl='';
 			location.href="createbook.html";
   		  }
@@ -366,6 +406,7 @@
 		$('.reset').on('click',()=>{
 		 $("#title").val('');
 		 $("#author").val('');
+		 $("#briefing").val('')
 		 bookimgurl='';
 		})
 		//图片上传 注册头像上传
@@ -385,9 +426,22 @@
 				}
 			})
 		})
+		// 中文检测
+		function isChineseChar(str){   
+		   var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+		   return reg.test(str);
+		}
 		//注册
 		$("#btn_up").on("click", () => {
-			$.ajax({
+			if($("#user_up").val()=="" || $("#pass_up").val()=="" || $("#name_up").val()=="" || imgurl==""){
+				alert("密码或账号不能为空");
+				return;
+			}else if(isChineseChar($("#user_up").val()) || isChineseChar($("#pass_up").val())){
+				alert("密码和账号不能为中文");
+				return;
+			}else{
+				$('#login_up').modal('toggle');
+				$.ajax({
 				url: href + "/logup/up",
 				type: "post",
 				data: {
@@ -400,12 +454,56 @@
 					alert(data);
 				}
 			})
+			}
 		})
+		
 		if(localStorage.user){
 			var json=JSON.parse(localStorage.user);
 			//   书架
 			$(".shujia").on("click",function(){
 				location.href="booklist.html?uid="+json.uid;
+			})
+			$(".createlist").on("click",function(){
+				
+				$.ajax({
+					url:href+"/logup/loguid",
+					type:"get",
+					data:{
+						logid:json.uid
+					},
+					success(data){
+						if(data=="没有数据了"){
+							alert(data);
+							return;
+						}
+						$.each(data,function(i,o){
+							var li=$(`
+							<li style="border-bottom:1px solid #cccc;width:100%;height:100px;margin-bottom:10px;">
+									<div class="li-book-img" style="width:
+										80px;height:100px;float: left;margin-right: 10px;">
+										<img src="${o.bookimg}" style="width:100%;height:100%;" alt="">
+									</div>
+									<div class="li-book-name" style="height:100px;float:left;margin-left: 15px;">
+										<h4 style="height: 50px;line-height: 50px;margin: 0;">${o.name}</h4>
+										<span style="height: 50px;line-height: 50px;display: block;">${o.author}</span>
+									</div>
+								</li>
+							`);
+								$(".mylist").append(li);
+								li.on("click",function(){
+									localStorage.bookmsg = JSON.stringify(o);
+									location.href="createbook.html";
+								})
+						})
+					}
+				})
+				$(".create").css("display","none");
+				$(".list").css("display","block");
+			})
+			// 创建新书
+			$(".newcreate").on("click",function(){
+				$(".list").css("display","none");
+				$(".create").css("display","block");
 			})
 			$(".peotx").attr("src", json.img);
 			$("#user_text").text(json.name);
@@ -415,7 +513,15 @@
 		}
 		// 登录
 		$("#btn_in").on("click", () => {
-			$.ajax({
+			if($("#user_in").val()=="" || $("#pass_in").val()==""){
+				alert("密码或账号不能为空");
+				return;
+			}else if(isChineseChar($("#user_in").val()) || isChineseChar($("#pass_in").val())){
+				alert("密码和账号不能为中文");
+				return;
+			}else{
+				$('#login_in').modal('toggle');
+				$.ajax({
 				url: href + "/logup/in",
 				type: "post",
 				data: {
@@ -435,7 +541,8 @@
 					type_t.style.display = 'block';
 					bookshelf.style.display = 'block';
 				}
-			})
+			})		
+			}
 		})
 		//退出登录
 		$('#t_btn').on('click', () => {

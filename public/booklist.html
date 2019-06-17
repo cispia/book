@@ -160,11 +160,10 @@
 							uid:data[$(this).parent().index()].uid
 						},
 						success(data){
-							console.log(data);
 							$(".z_list li").eq($(this).parent().index()).remove();
-						}
-					})
-				})
+								}
+							})
+						})
 						$(li).on("click",function(){
 						localStorage.bookdet=JSON.stringify(o);
 						})
