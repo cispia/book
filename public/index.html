@@ -300,7 +300,7 @@
 			$("#nicheng").val(JSON.parse(localStorage.user).name);
 			$("#myimg").attr("src",JSON.parse(localStorage.user).img);
 			$(".update").on("click",function(){
-				if($("#nicheng").val()==JSON.parse(localStorage.user).name || $("#nicheng").val()==""){
+				if($("#nicheng").val()==JSON.parse(localStorage.user).name || $("#nicheng").val()=="" || upimg == ''){
 					alert("新昵称为空或跟旧昵称相同");
 					return;
 				}
