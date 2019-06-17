@@ -300,8 +300,13 @@
 			$("#nicheng").val(JSON.parse(localStorage.user).name);
 			$("#myimg").attr("src",JSON.parse(localStorage.user).img);
 			$(".update").on("click",function(){
+<<<<<<< HEAD
 				if($("#nicheng").val()==JSON.parse(localStorage.user).name || $("#nicheng").val()=="" || upimg == ''){
 					alert("新昵称为空或跟旧昵称相同");
+=======
+				if($("#nicheng").val()==JSON.parse(localStorage.user).name || $("#nicheng").val()=="" || upimg==""){
+					alert("新昵称为空或跟旧昵称相同或者头像未修改");
+>>>>>>> 31ea494f01f2e014394b7a44aa8c94fcaa3900df
 					return;
 				}
 			$.ajax({
